@@ -82,6 +82,13 @@ if __name__ == '__main__':
 	#get pre-trained tokenizer
 	tokenizer = Tokenizer.from_pretrained(pt_teacher_checkpoint)
 
+	if task_name == "ecommerce_cate":
+		path = "/content/drive/MyDrive/UPET/ecommerce_cate"
+		raw_datasets = load_from_disk(path)
+		train = raw_datasets['train']
+		val = raw_datasets['validation']
+		test= raw_datasets['test']
+		
 	X_train_all, y_train_all = generate_sequence_data(max_seq_length, task_name+ "/train.tsv" ,tokenizer, do_pairwise=do_pairwise)
 
 	X_test, y_test = generate_sequence_data(max_seq_length, task_name + "/test.tsv", tokenizer, do_pairwise=do_pairwise)
