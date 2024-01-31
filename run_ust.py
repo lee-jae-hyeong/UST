@@ -136,20 +136,29 @@ if __name__ == '__main__':
 		y_train = y_train_all
 	else:
 		X_input_ids, X_token_type_ids, X_attention_mask, y_train = [], [], [], []
+		X_unlabeld_input_ids, X_unlabeled_token_type_ids, X_unlabeled_attention_mask = [], [], []
 		for i in labels:
 			#get sup_labels from each class
 			indx = np.where(y_train_all==i)[0]
 			random.Random(GLOBAL_SEED).shuffle(indx)
+			unlabeled_indx=indx[sup_labels:]
 			indx = indx[:sup_labels]
 			X_input_ids.extend(X_train_all["input_ids"][indx])
 			X_token_type_ids.extend(X_train_all["token_type_ids"][indx])
 			X_attention_mask.extend(X_train_all["attention_mask"][indx])
 			y_train.extend(np.full(sup_labels, i))
 
+			X_unlabeld_input_ids.extend(X_train_all["input_ids"][unlabeled_indx])
+			X_unlabeled_token_type_ids.extend(X_train_all["token_type_ids"][unlabeled_indx])
+			X_unlabeled_attention_mask.extend(X_train_all["attention_mask"][unlabeled_indx])
+
 		X_input_ids, X_token_type_ids, X_attention_mask, y_train = shuffle(X_input_ids, X_token_type_ids, X_attention_mask, y_train, random_state=GLOBAL_SEED)
+		X_unlabeld_input_ids, X_unlabeled_token_type_ids, X_unlabeled_attention_mask, y_train = shuffle(X_unlabeld_input_ids, X_unlabeled_token_type_ids, X_unlabeled_attention_mask, y_train, random_state=GLOBAL_SEED)
 
 		X_train = {"input_ids": np.array(X_input_ids), "token_type_ids": np.array(X_token_type_ids), "attention_mask": np.array(X_attention_mask)}
 		y_train = np.array(y_train)
+
+		X_unlabeled = {"input_ids": np.array(X_unlabeld_input_ids), "token_type_ids": np.array(X_unlabeled_token_type_ids), "attention_mask": np.array(X_unlabeled_attention_mask)}
 
 	train_model(max_seq_length, X_train, y_train, X_test, y_test, X_unlabeled, model_dir, tokenizer, sup_batch_size=sup_batch_size, unsup_batch_size=unsup_batch_size, unsup_size=unsup_size, sample_size=sample_size, TFModel=TFModel, Config=Config, pt_teacher_checkpoint=pt_teacher_checkpoint, sample_scheme=sample_scheme, T=T, alpha=alpha, valid_split=valid_split, sup_epochs=sup_epochs, unsup_epochs=unsup_epochs, N_base=N_base, dense_dropout=dense_dropout, attention_probs_dropout_prob=attention_probs_dropout_prob, hidden_dropout_prob=hidden_dropout_prob)
 
