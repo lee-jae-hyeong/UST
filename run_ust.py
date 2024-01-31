@@ -89,11 +89,11 @@ if __name__ == '__main__':
 		val = raw_datasets['validation']
 		test= raw_datasets['test']
 		
-	X_train_all, y_train_all = generate_sequence_data(max_seq_length, task_name+ "/train.tsv" ,tokenizer, do_pairwise=do_pairwise)
+	X_train_all, y_train_all = generate_sequence_data(max_seq_length, "train" ,tokenizer, do_pairwise=do_pairwise)
 
-	X_test, y_test = generate_sequence_data(max_seq_length, task_name + "/test.tsv", tokenizer, do_pairwise=do_pairwise)
+	X_test, y_test = generate_sequence_data(max_seq_length, task_name + "test, tokenizer, do_pairwise=do_pairwise)
 
-	X_unlabeled, _ = generate_sequence_data(max_seq_length, task_name + "/transfer.txt", tokenizer, unlabeled=True, do_pairwise=do_pairwise)
+	#X_unlabeled, _ = generate_sequence_data(max_seq_length, task_name + "/transfer.txt", tokenizer, unlabeled=True, do_pairwise=do_pairwise)
 
 
 	for i in range(3):
@@ -114,13 +114,13 @@ if __name__ == '__main__':
 		logger.info ("Token mask {}".format(X_test["attention_mask"][i]))
 		logger.info ("Label {}".format(y_test[i]))
 
-	for i in range(3):
-		logger.info("***Unlabeled***")
-		logger.info ("Example {}".format(i))
-		logger.info ("Token ids {}".format(X_unlabeled["input_ids"][i]))
-		logger.info (tokenizer.convert_ids_to_tokens(X_unlabeled["input_ids"][i]))
-		#logger.info ("Token type ids {}".format(X_unlabeled["token_type_ids"][i]))
-		logger.info ("Token mask {}".format(X_unlabeled["attention_mask"][i]))
+	# for i in range(3):
+	# 	logger.info("***Unlabeled***")
+	# 	logger.info ("Example {}".format(i))
+	# 	logger.info ("Token ids {}".format(X_unlabeled["input_ids"][i]))
+	# 	logger.info (tokenizer.convert_ids_to_tokens(X_unlabeled["input_ids"][i]))
+	# 	#logger.info ("Token type ids {}".format(X_unlabeled["token_type_ids"][i]))
+	# 	logger.info ("Token mask {}".format(X_unlabeled["attention_mask"][i]))
 
 	#labels indexed from 0
 	labels = set(y_train_all)
