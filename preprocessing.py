@@ -42,9 +42,9 @@ def generate_sequence_data(MAX_SEQUENCE_LENGTH, data_type, tokenizer, unlabeled=
   path = "/content/drive/MyDrive/UPET/ecommerce_cate"
   raw_datasets = load_from_disk(path)
   
-  train = raw_datasets['train']
-  val = raw_datasets['validation']
-  test= raw_datasets['test']
+  # train = raw_datasets['train']
+  # val = raw_datasets['validation']
+  # test= raw_datasets['test']
 
 
   if data_type == "train":
