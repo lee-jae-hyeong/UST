@@ -39,7 +39,7 @@ if __name__ == '__main__':
 	parser.add_argument("--T", nargs="?", type=int, default=20, help="number of masked models for uncertainty estimation")
 	parser.add_argument("--alpha", nargs="?", type=float, default=0.1, help="hyper-parameter for confident training loss")
 	parser.add_argument("--valid_split", nargs="?", type=float, default=0.5, help="percentage of sup_labels to use for validation for each class")
-	parser.add_argument("--sup_epochs", nargs="?", type=int, default=50, help="number of epochs for fine-tuning base model")
+	parser.add_argument("--sup_epochs", nargs="?", type=int, default=70, help="number of epochs for fine-tuning base model")
 	parser.add_argument("--unsup_epochs", nargs="?", type=int, default=25, help="number of self-training iterations")
 	parser.add_argument("--N_base", nargs="?", type=int, default=5, help="number of times to randomly initialize and fine-tune few-shot base encoder to select the best starting configuration")
 	parser.add_argument("--pt_teacher", nargs="?", default="TFBertModel",help="Pre-trained teacher model")
