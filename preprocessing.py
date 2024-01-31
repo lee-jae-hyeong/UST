@@ -64,12 +64,12 @@ def generate_sequence_data(MAX_SEQUENCE_LENGTH, data_type, tokenizer, unlabeled=
     if do_pairwise:
       X2.append(convert_to_unicode(dataset["sentence"][number]))
     if not unlabeled:
-        if do_pairwise:
-          label = int(convert_to_unicode(dataset["label"][number]))
-        else:
-          label = int(convert_to_unicode(dataset["label"][number]))
-        y.append(label)
-        label_count[label] += 1
+      if do_pairwise:
+        label = int(convert_to_unicode(dataset["label"][number]))
+      else:
+        label = int(convert_to_unicode(dataset["label"][number]))
+      y.append(label)
+      label_count[label] += 1
     else:
         y.append(-1)
     
