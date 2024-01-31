@@ -31,7 +31,7 @@ if __name__ == '__main__':
 	parser.add_argument("--model_dir", required=True, help="path to store model files")
 	parser.add_argument("--seq_len", required=True, type=int, help="sequence length")
 	parser.add_argument("--sup_batch_size", nargs="?", type=int, default=4, help="batch size for fine-tuning base model")
-	parser.add_argument("--unsup_batch_size", nargs="?", type=int, default=32, help="batch size for self-training on pseudo-labeled data")
+	parser.add_argument("--unsup_batch_size", nargs="?", type=int, default=16, help="batch size for self-training on pseudo-labeled data")
 	parser.add_argument("--sample_size", nargs="?", type=int, default=240000, help="number of unlabeled samples for evaluating uncetainty on in each self-training iteration")
 	parser.add_argument("--unsup_size", nargs="?", type=int, default=72000, help="number of pseudo-labeled instances drawn from sample_size and used in each self-training iteration")
 	parser.add_argument("--sample_scheme", nargs="?", default="easy_bald_class_conf", help="Sampling scheme to use")
