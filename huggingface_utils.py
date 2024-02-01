@@ -21,6 +21,6 @@ MODELS = [(TFAlbertModel, AlbertTokenizer, AlbertConfig),
           (TFRobertaModel, RobertaTokenizer, RobertaConfig),
           (TFXLMRobertaModel, XLMRobertaTokenizer, XLMRobertaConfig),
           (TFMobileBertForMaskedLM, MobileBertTokenizer, MobileBertConfig),
-          (TFFunnelForMaskedLM, FunnelTokenizer, FunnelConfig)
+          (TFFunnelForMaskedLM, FunnelTokenizer, FunnelConfig),
           (AutoModel, AutoTokenizer, AutoConfig)
           ]
