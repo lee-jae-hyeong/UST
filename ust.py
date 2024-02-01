@@ -100,9 +100,21 @@ def train_model(max_seq_length, X, y, X_test, y_test, X_unlabeled, model_dir, to
         logger.info("X Dev Shape: {} {}".format(X_dev["input_ids"].shape, y_dev.shape))
         logger.info("X Test Shape: {} {}".format(X_test["input_ids"].shape, y_test.shape))
         logger.info ("X Unlabeled Shape: {}".format(X_unlabeled["input_ids"].shape))
-
-        strategy = tf.distribute.MirroredStrategy()
-        gpus = strategy.num_replicas_in_sync
+  
+        if 'COLAB_TPU_ADDR' in os.environ:
+            resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='grpc://' + os.environ['COLAB_TPU_ADDR'])
+            tf.config.experimental_connect_to_cluster(resolver)
+            tf.tpu.experimental.initialize_tpu_system(resolver)
+            
+            strategy = tf.distribute.TPUStrategy(resolver)
+            gpus = 1  # TPU는 1개의 장치만 사용하는 것으로 간주
+        else:
+            # 다양한 GPU로 확장 가능한 코드
+            strategy = tf.distribute.MirroredStrategy()
+            gpus = strategy.num_replicas_in_sync
+          
+        # strategy = tf.distribute.MirroredStrategy()
+        # gpus = strategy.num_replicas_in_sync
         logger.info('Number of devices: {}'.format(gpus))
 
         #run the base model n times with different initialization to select best base model based on validation loss
