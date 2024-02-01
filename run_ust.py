@@ -20,7 +20,7 @@ import sys
 logger = logging.getLogger('UST')
 logging.basicConfig(level = logging.INFO)
 
-GLOBAL_SEED = int(os.getenv("PYTHONHASHSEED"))
+GLOBAL_SEED = 42
 logger.info ("Global seed {}".format(GLOBAL_SEED))
 
 if __name__ == '__main__':
@@ -39,11 +39,11 @@ if __name__ == '__main__':
 	parser.add_argument("--T", nargs="?", type=int, default=20, help="number of masked models for uncertainty estimation")
 	parser.add_argument("--alpha", nargs="?", type=float, default=0.1, help="hyper-parameter for confident training loss")
 	parser.add_argument("--valid_split", nargs="?", type=float, default=0.5, help="percentage of sup_labels to use for validation for each class")
-	parser.add_argument("--sup_epochs", nargs="?", type=int, default=70, help="number of epochs for fine-tuning base model")
+	parser.add_argument("--sup_epochs", nargs="?", type=int, default=100, help="number of epochs for fine-tuning base model")
 	parser.add_argument("--unsup_epochs", nargs="?", type=int, default=25, help="number of self-training iterations")
 	parser.add_argument("--N_base", nargs="?", type=int, default=5, help="number of times to randomly initialize and fine-tune few-shot base encoder to select the best starting configuration")
-	parser.add_argument("--pt_teacher", nargs="?", default="AutoModel",help="Pre-trained teacher model")
-	parser.add_argument("--pt_teacher_checkpoint", nargs="?", default="klue/roberta-large", help="teacher model checkpoint to load pre-trained weights")
+	parser.add_argument("--pt_teacher", nargs="?", default="TFBertModel",help="Pre-trained teacher model")
+	parser.add_argument("--pt_teacher_checkpoint", nargs="?", default="klue/roberta-base", help="teacher model checkpoint to load pre-trained weights")
 	parser.add_argument("--do_pairwise", action="store_true", default=False, help="whether to perform pairwise classification tasks like MNLI")
 	parser.add_argument("--hidden_dropout_prob", nargs="?", type=float, default=0.2, help="dropout probability for hidden layer of teacher model")
 	parser.add_argument("--attention_probs_dropout_prob", nargs="?", type=float, default=0.2, help="dropout probability for attention layer of teacher model")
@@ -154,7 +154,7 @@ if __name__ == '__main__':
 			X_unlabeled_attention_mask.extend(X_train_all["attention_mask"][unlabeled_indx])
 
 		X_input_ids, X_token_type_ids, X_attention_mask, y_train = shuffle(X_input_ids, X_token_type_ids, X_attention_mask, y_train, random_state=GLOBAL_SEED)
-		X_unlabeld_input_ids, X_unlabeled_token_type_ids, X_unlabeled_attention_mask, y_train = shuffle(X_unlabeld_input_ids, X_unlabeled_token_type_ids, X_unlabeled_attention_mask, y_train, random_state=GLOBAL_SEED)
+		X_unlabeld_input_ids, X_unlabeled_token_type_ids, X_unlabeled_attention_mask = shuffle(X_unlabeld_input_ids, X_unlabeled_token_type_ids, X_unlabeled_attention_mask, random_state=GLOBAL_SEED)
 
 		X_train = {"input_ids": np.array(X_input_ids), "token_type_ids": np.array(X_token_type_ids), "attention_mask": np.array(X_attention_mask)}
 		y_train = np.array(y_train)
