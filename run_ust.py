@@ -42,7 +42,7 @@ if __name__ == '__main__':
 	parser.add_argument("--sup_epochs", nargs="?", type=int, default=70, help="number of epochs for fine-tuning base model")
 	parser.add_argument("--unsup_epochs", nargs="?", type=int, default=25, help="number of self-training iterations")
 	parser.add_argument("--N_base", nargs="?", type=int, default=5, help="number of times to randomly initialize and fine-tune few-shot base encoder to select the best starting configuration")
-	parser.add_argument("--pt_teacher", nargs="?", default="AutoModel",help="Pre-trained teacher model")
+	parser.add_argument("--pt_teacher", nargs="?", default="AutoModel",help="Pre-trained teacher model")
 	parser.add_argument("--pt_teacher_checkpoint", nargs="?", default="klue/roberta-large", help="teacher model checkpoint to load pre-trained weights")
 	parser.add_argument("--do_pairwise", action="store_true", default=False, help="whether to perform pairwise classification tasks like MNLI")
 	parser.add_argument("--hidden_dropout_prob", nargs="?", type=float, default=0.2, help="dropout probability for hidden layer of teacher model")
