@@ -91,7 +91,7 @@ if __name__ == '__main__':
 		
 	X_train_all, y_train_all = generate_sequence_data(max_seq_length, "train" ,tokenizer, do_pairwise=do_pairwise)
 
-	X_test, y_test = generate_sequence_data(max_seq_length, task_name + "test, tokenizer, do_pairwise=do_pairwise)
+	X_test, y_test = generate_sequence_data(max_seq_length, "test", tokenizer, do_pairwise=do_pairwise)
 
 	#X_unlabeled, _ = generate_sequence_data(max_seq_length, task_name + "/transfer.txt", tokenizer, unlabeled=True, do_pairwise=do_pairwise)
 
