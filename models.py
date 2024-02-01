@@ -17,7 +17,11 @@ def construct_teacher(TFModel, Config, pt_teacher_checkpoint, max_seq_length, cl
     config = Config.from_pretrained(pt_teacher_checkpoint, num_labels=classes)
     config.attention_probs_dropout_prob = attention_probs_dropout_prob
     config.hidden_dropout_prob = hidden_dropout_prob
-    encoder = TFModel.from_pretrained(pt_teacher_checkpoint, config=config, from_pt=True, name="teacher")
+
+    if Config == AutoConfig:
+        encoder = TFModel.from_pretrained(pt_teacher_checkpoint, config=config, name="teacher")
+    else:
+        encoder = TFModel.from_pretrained(pt_teacher_checkpoint, config=config, from_pt=True, name="teacher")
 
     input_ids = Input(shape=(max_seq_length,), dtype=tf.int32, name="input_ids")
     attention_mask = Input(shape=(max_seq_length,), dtype=tf.int32, name="attention_mask")
