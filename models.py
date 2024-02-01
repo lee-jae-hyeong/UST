@@ -19,7 +19,7 @@ def construct_teacher(TFModel, Config, pt_teacher_checkpoint, max_seq_length, cl
     config.hidden_dropout_prob = hidden_dropout_prob
 
     if Config == AutoConfig:
-        encoder = TFModel.from_pretrained(pt_teacher_checkpoint, config=config
+        encoder = TFModel.from_pretrained(pt_teacher_checkpoint, config=config)
     else:
         encoder = TFModel.from_pretrained(pt_teacher_checkpoint, config=config, from_pt=True, name="teacher")
 
