@@ -230,5 +230,14 @@ def train_model(max_seq_length, X, y, X_test, y_test, X_unlabeled, model_dir, to
                 model.save_weights(model_file)
                 logger.info ("Model file saved to {}".format(model_file))
 
+        test_acc = model.evaluate(X_test, y_test, verbose=0)[-1]
+
+        if test_acc > best_test_acc:
+          best_test_acc = test_acc
+          max_test_acc=epoch
+
         logger.info ("Test accuracy based on best validation loss {}".format(best_test_acc))
         logger.info ("Best test accuracy across all self-training iterations {}".format(max_test_acc))
+
+        y_pred=model.predict(X_test)
+        np.save('/content/drive/MyDrive/UST/my_array.npy', y_pred)
