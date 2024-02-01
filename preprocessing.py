@@ -67,7 +67,7 @@ def generate_sequence_data(MAX_SEQUENCE_LENGTH, data_type, tokenizer, unlabeled=
       if do_pairwise:
         label = int(convert_to_unicode(dataset["label"][number]))
       else:
-        label = int(convert_to_unicode(dataset["label"][number]))
+        label = int(dataset["label"][number])
       y.append(label)
       label_count[label] += 1
     else:
