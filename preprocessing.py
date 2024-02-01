@@ -4,6 +4,8 @@ Code for Uncertainty-aware Self-training (UST) for few-shot learning.
 """
 
 from collections import defaultdict
+from collections import Counter
+
 
 import csv
 import logging
@@ -39,7 +41,7 @@ def generate_sequence_data(MAX_SEQUENCE_LENGTH, data_type, tokenizer, unlabeled=
   X1 = []
   X2 = []
   y = []
-  path = "/content/drive/MyDrive/UPET/ecommerce_cate"
+  path = "/content/drive/MyDrive/UPET/ecommerce"
   raw_datasets = load_from_disk(path)
   
   # train = raw_datasets['train']
@@ -54,28 +56,38 @@ def generate_sequence_data(MAX_SEQUENCE_LENGTH, data_type, tokenizer, unlabeled=
   else:
     dataset=raw_datasets['test']
     
-  label_count = defaultdict(int)
-  # with tf.io.gfile.GFile(input_file, "r") as f:
-  #   reader = csv.reader(f, delimiter="\t", quotechar=None)
-  for number in range(len(dataset)):
-    if len(dataset["sentence"][number]) == 0:
-      continue
-    X1.append(convert_to_unicode(dataset["sentence"][number]))
-    if do_pairwise:
-      X2.append(convert_to_unicode(dataset["sentence"][number]))
-    if not unlabeled:
-      if do_pairwise:
-        label = int(convert_to_unicode(dataset["label"][number]))
-      else:
-        label = int(dataset["label"][number])
-      y.append(label)
-      label_count[label] += 1
-    else:
-        y.append(-1)
-    
+  # label_count = defaultdict(int)
+  # # with tf.io.gfile.GFile(input_file, "r") as f:
+  # #   reader = csv.reader(f, delimiter="\t", quotechar=None)
+  # for number in range(len(dataset)):
+  #   if number < 1000:
+  #     print([number])
+  #   # if len(dataset["sentence"][number]) == 0:
+  #   #   continue
+  #   X1.append(convert_to_unicode(dataset["sentence"][number]))
+  #   if do_pairwise:
+  #     X2.append(convert_to_unicode(dataset["sentence"][number]))
+  #   if not unlabeled:
+  #     if do_pairwise:
+  #       label = int(convert_to_unicode(dataset["label"][number]))
+  #     else:
+  #       label = int(dataset["label"][number])
+  #     y.append(label)
+  #     label_count[label] += 1
+  #   else:
+  #       y.append(-1)
+  # print(len(X1), len(y))
+  X1 = dataset["sentence"]
+  y = dataset["label"]
+  label_count = Counter(y)
+
+  print(len(X1))
+  print(len(y))
+
   if do_pairwise:
     X =  tokenizer(X1, X2, padding=True, truncation=True, max_length = MAX_SEQUENCE_LENGTH)
   else:
+    print('start')
     X =  tokenizer(X1, padding=True, truncation=True, max_length = MAX_SEQUENCE_LENGTH)
 
   for key in label_count.keys():
